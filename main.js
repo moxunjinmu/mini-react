@@ -1,12 +1,27 @@
 
+const text = {
+  type: 'text',
+  props: {
+    nodeValue: 'Hello World',
+    children: []
+  },
+}
+const app = {
+  type: 'div',
+  props: {
+    id: 'app',
+    children: [
+      text
+    ]
+  },
+}
 
-const dom = document.createElement('div');
+const dom = document.createElement(app.type);
+dom.id = app.props.id;
+const textDom = document.createTextNode('');
 
-const text = document.createTextNode('');
+textDom.nodeValue = text.props.nodeValue;
 
-text.nodeValue = 'Hello World';
-
-dom.append(text);
+dom.append(textDom);
 
 document.querySelector('#root').append(dom);
-
