@@ -24,13 +24,15 @@ const createElement = (type, props, ...children) => {
     type,
     props: {
       ...props,
-      children,
+      children: children.map(child => {
+        return typeof child === "string" ? createTextNode(child) : child;
+      })
     },
   };
 };
 
-const textVDom = createTextNode("Hello World");
-const App = createElement("div", { id: "app" }, textVDom);
+
+const App = createElement("div", { id: "app" }, 'Hello', 'react');
 
 const render = (el, container) => {
   // 创建元素节点
