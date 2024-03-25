@@ -1,18 +1,16 @@
-
-
 /**
  * 创建文本节点
- * @param {*} textValue 
-*/
+ * @param {*} textValue
+ */
 const createTextNode = (textValue) => {
   return {
-    type: 'TEXT',
+    type: "TEXT",
     props: {
       nodeValue: textValue,
-      children: []
+      children: [],
     },
-  }
-}
+  };
+};
 
 /**
  * 创建元素节点
@@ -20,26 +18,40 @@ const createTextNode = (textValue) => {
  * @param {*} props 元素参数
  * @param  {...any} children 子元素
  *
-*/
+ */
 const createElement = (type, props, ...children) => {
   return {
     type,
     props: {
       ...props,
-      children
+      children,
+    },
+  };
+};
+
+const textVDom = createTextNode("Hello World");
+const App = createElement("div", { id: "app" }, textVDom);
+
+const render = (el, container) => {
+  // 创建元素节点
+  const dom =
+    el.type === "TEXT"
+      ? document.createTextNode("")
+      : document.createElement(el.type);
+
+  // 添加属性
+  Object.keys(el.props).forEach((key) => {
+    if (key !== "children") {
+      dom[key] = el.props[key];
     }
-  }
-}
+  });
 
-const textVDom = createTextNode('Hello World');
-const App = createElement('div', {id: 'app'}, textVDom)
+  // 递归渲染子元素
+  el.props.children.forEach((child) => {
+    render(child, dom);
+  });
 
-const dom = document.createElement(App.type);
+  container.append(dom);
+};
 
-const textDom = document.createTextNode('');
-
-textDom.nodeValue = textVDom.props.nodeValue;
-
-dom.append(textDom);
-
-document.querySelector('#root').append(dom);
+render(App, document.querySelector("#root"));
