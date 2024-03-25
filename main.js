@@ -6,7 +6,7 @@ const text = document.createTextNode('');
 
 text.nodeValue = 'Hello World';
 
-dom.appendChild(text);
+dom.append(text);
 
-document.body.appendChild(dom);
+document.querySelector('#root').append(dom);
 
